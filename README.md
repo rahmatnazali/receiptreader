@@ -20,3 +20,8 @@ Will be ran on Google Cloud App Engine to distribute to a small number of restau
 - If a File is assigned to another Document, it's previous Document is deleted
 
 
+This video shows the application design:
+https://youtu.be/gspeD9Jdn_g?t=1122
+
+https://youtu.be/gspeD9Jdn_g?t=1480
+
