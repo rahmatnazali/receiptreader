@@ -1,8 +1,8 @@
 from django.db import models
 from django.db.models.signals import post_save
 from receiptreader.google_vision_api import GoogleVisionApi
+import os
 #from bs4 import BeautifulSoup
-
 
 # Create your models here.
 
@@ -10,7 +10,7 @@ from receiptreader.google_vision_api import GoogleVisionApi
 class Document(models.Model):
   image = models.ImageField(upload_to='documents')
   def filename(self):
-        return os.path.basename(self.file.name)
+    return os.path.basename(self.file.name)
 
   def __str__(self):
     return "{}".format(self.image.file)
@@ -29,12 +29,13 @@ class RawJson(models.Model):
 
 
 def document_save(sender, instance, **kwargs):
-  print("Instance = ", instance)
-  googlevision = GoogleVisionApi()
-  rawjson = googlevision.ocr_image(instance)
-  RawJson.objects.create(document=instance, text=rawjson)
-#def rawjson_save(sender, instance, **kwargs):
+  # print("Instance = ", instance)
+  # googlevision = GoogleVisionApi()
+  # rawjson = googlevision.ocr_image(instance)
+  # RawJson.objects.create(document=instance, text=rawjson)
+  pass
 
+#def rawjson_save(sender, instance, **kwargs):
 
 post_save.connect(document_save, sender=Document)
 
