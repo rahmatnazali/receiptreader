@@ -1,0 +1,169 @@
+bill:
+  card_last_four: null
+  card_type: null
+  date: null
+  grand_total: '10.49'
+  time: null
+  total_deposit: '278.30'
+  total_gst: '35.68'
+  total_pst: null
+  trans_num: null
+bill_from:
+  address: null
+  name: null
+bill_to:
+  custom_PST: null
+  custom_address: null
+  custom_city: null
+  custom_name: null
+  custom_number: null
+  custom_postal: null
+  custom_prov: null
+line_items:
+- container_deposit: '0.20'
+  description: LELLS1750
+  line_total: '34.99'
+  quantity: '3'
+  sku: '371228'
+  tax_code: G
+  unit_price: '38.99'
+- container_deposit: null
+  description: BC LIQUORSTORES
+  line_total: null
+  quantity: null
+  sku: '55'
+  tax_code: null
+  unit_price: null
+- container_deposit: '0.60'
+  description: LDMER ONISSION PALE AE
+  line_total: null
+  quantity: '4'
+  sku: '2227'
+  tax_code: null
+  unit_price: '16.29'
+- container_deposit: null
+  description: BCLS
+  line_total: null
+  quantity: null
+  sku: '5544'
+  tax_code: null
+  unit_price: null
+- container_deposit: null
+  description: FIREBALL T14
+  line_total: null
+  quantity: null
+  sku: '10108'
+  tax_code: null
+  unit_price: null
+- container_deposit: '0.20'
+  description: ILLIPS ELUE BUCK ALE 6X341
+  line_total: null
+  quantity: null
+  sku: '75061'
+  tax_code: null
+  unit_price: null
+- container_deposit: null
+  description: CALADORES ALANCO 1X750m
+  line_total: null
+  quantity: '16'
+  sku: '27314'
+  tax_code: null
+  unit_price: '33.49'
+- container_deposit: '3.20'
+  description: BTRONGDRIGINAL DRY TALL CA BX440
+  line_total: null
+  quantity: '68'
+  sku: '106054'
+  tax_code: null
+  unit_price: '17.49'
+- container_deposit: '7.20'
+  description: CRACDBOLS T7
+  line_total: null
+  quantity: null
+  sku: '1295'
+  tax_code: null
+  unit_price: null
+- container_deposit: '4.80'
+  description: ACRES CE LIFE LAGER 6X330
+  line_total: null
+  quantity: '24'
+  sku: '772335'
+  tax_code: null
+  unit_price: '12.29'
+- container_deposit: null
+  description: LHEECE CAN 6X355
+  line_total: null
+  quantity: null
+  sku: '16627'
+  tax_code: null
+  unit_price: null
+- container_deposit: '0.20'
+  description: ACANIELS ODSURH
+  line_total: '296.94'
+  quantity: '59'
+  sku: '89177'
+  tax_code: G
+  unit_price: '62.83'
+- container_deposit: '0.40'
+  description: APPROVED-THANK YOU
+  line_total: null
+  quantity: null
+  sku: '49'
+  tax_code: null
+  unit_price: null
+- container_deposit: '16.80'
+  description: PARKEEL9 S0HENREUDE 6
+  line_total: null
+  quantity: null
+  sku: '17369'
+  tax_code: null
+  unit_price: null
+- container_deposit: '0.10'
+  description: OE DE BANANES 1250
+  line_total: null
+  quantity: null
+  sku: '247'
+  tax_code: null
+  unit_price: null
+- container_deposit: null
+  description: INTIIE 20 LL 170
+  line_total: null
+  quantity: null
+  sku: '86412'
+  tax_code: null
+  unit_price: null
+- container_deposit: null
+  description: UFTHOOD BREKERY- FAT TUG IPA 4X473
+  line_total: null
+  quantity: '12'
+  sku: '12772'
+  tax_code: null
+  unit_price: '13.29'
+- container_deposit: null
+  description: CA VERTH TL
+  line_total: null
+  quantity: '6'
+  sku: '928374'
+  tax_code: null
+  unit_price: '49.49'
+- container_deposit: null
+  description: 0ON O-REPSADO 5
+  line_total: null
+  quantity: null
+  sku: '699621'
+  tax_code: null
+  unit_price: null
+- container_deposit: '0.60'
+  description: APPAIN HORDAN WHTTE IXT 14
+  line_total: null
+  quantity: null
+  sku: '13'
+  tax_code: null
+  unit_price: null
+- container_deposit: '16.80'
+  description: CA VERTH TL
+  line_total: null
+  quantity: null
+  sku: '422'
+  tax_code: null
+  unit_price: null

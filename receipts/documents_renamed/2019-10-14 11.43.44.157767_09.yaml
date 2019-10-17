@@ -1,0 +1,64 @@
+bill:
+  card_last_four: '4112'
+  card_type: VI
+  date: 08-24-2019
+  grand_total: '518.83'
+  time: '15:52:39'
+  total_deposit: '2.90'
+  total_gst: '24.57'
+  total_pst: null
+  trans_num: '311587192080'
+bill_from:
+  address: '#122 370 E Broadway'
+  name: '#123 Kingsgate Mall BCLS'
+bill_to:
+  custom_PST: P10093339
+  custom_address: 2321 MAIN STREET
+  custom_city: VANCOUVER
+  custom_name: FOX
+  custom_number: '305810'
+  custom_postal: V5T 3C9
+  custom_prov: BC
+line_items:
+- container_deposit: '0.40'
+  description: CAZADORES BLANCO 1X750ml
+  line_total: '25.99'
+  quantity: '2'
+  sku: '773143'
+  tax_code: G
+  unit_price: '18.99'
+- container_deposit: '0.10'
+  description: CAMPARI 1X750m
+  line_total: '37.98'
+  quantity: null
+  sku: '277954'
+  tax_code: G
+  unit_price: null
+- container_deposit: null
+  description: BLUE CURACAO BOLS 1X750 1
+  line_total: null
+  quantity: null
+  sku: '129353'
+  tax_code: null
+  unit_price: null
+- container_deposit: '0.40'
+  description: JAMESON IRISH 1X1.14L
+  line_total: '66.98'
+  quantity: '2'
+  sku: '928374'
+  tax_code: G
+  unit_price: '48.49'
+- container_deposit: null
+  description: SIPS ANTARES SAUVIGNON BLANC 1X750ml
+  line_total: null
+  quantity: null
+  sku: '833285'
+  tax_code: null
+  unit_price: null
+- container_deposit: null
+  description: SOBIESKI 1X1.14L
+  line_total: '99.48'
+  quantity: null
+  sku: '804252'
+  tax_code: G
+  unit_price: null

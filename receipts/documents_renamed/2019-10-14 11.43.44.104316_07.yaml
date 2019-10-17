@@ -1,0 +1,43 @@
+bill:
+  card_last_four: '8276'
+  card_type: DP
+  date: 08-03-2019
+  grand_total: '418.97'
+  time: '19:38:36'
+  total_deposit: '21.60'
+  total_gst: '18.92'
+  total_pst: null
+  trans_num: '302586984757'
+bill_from:
+  address: '#122 370 E Broadway'
+  name: '#123 Kingsgate Mall BCLS'
+bill_to:
+  custom_PST: P10093339
+  custom_address: 2321 MAIN STREET
+  custom_city: VANCOUVER
+  custom_name: FOX
+  custom_number: '305810'
+  custom_postal: V5T 3C9
+  custom_prov: BC
+line_items:
+- container_deposit: '4.80'
+  description: DOS EQUIS XX ESPECIAL LAGER355ml
+  line_total: '135.16'
+  quantity: '8'
+  sku: '156174'
+  tax_code: G
+  unit_price: '12.79'
+- container_deposit: null
+  description: MOLSON OLD STYLE PILSNER CA 24X355ml
+  line_total: null
+  quantity: '4'
+  sku: '681155'
+  tax_code: null
+  unit_price: '33.79'
+- container_deposit: '9.60'
+  description: CORONA EXTRA 24X330ml
+  line_total: '140.97'
+  quantity: '3'
+  sku: '574574'
+  tax_code: G
+  unit_price: '46.99'

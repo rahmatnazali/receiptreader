@@ -1,0 +1,57 @@
+bill:
+  card_last_four: '6433'
+  card_type: MC
+  date: 05-24-2019
+  grand_total: 1,572.64
+  time: '13:39:55'
+  total_deposit: '4.40'
+  total_gst: '74.68'
+  total_pst: null
+  trans_num: '114586277525'
+bill_from:
+  address: 1520 Commercial Drive
+  name: '#111 Commercial Drive BCLS'
+bill_to:
+  custom_PST: null
+  custom_address: null
+  custom_city: null
+  custom_name: null
+  custom_number: null
+  custom_postal: null
+  custom_prov: null
+line_items:
+- container_deposit: '0.60'
+  description: COINTREAU 1X750ml
+  line_total: '203.94'
+  quantity: '6'
+  sku: '6502'
+  tax_code: G
+  unit_price: '33.99'
+- container_deposit: null
+  description: SOMBRA MEZCAL 1X750ml
+  line_total: '635.88'
+  quantity: '12'
+  sku: '856914'
+  tax_code: G
+  unit_price: '52.99'
+- container_deposit: '1.20'
+  description: CAZADORES BLANCO 1X750ml
+  line_total: '359.88'
+  quantity: '12'
+  sku: '773143'
+  tax_code: G
+  unit_price: '29.99'
+- container_deposit: '1.20'
+  description: GONZALEZ BYASS TIO PEPE 1X750ml
+  line_total: '47.98'
+  quantity: '2'
+  sku: '242669'
+  tax_code: G
+  unit_price: '23.99'
+- container_deposit: '0.20'
+  description: SIPS CATALUNYA BLANCA ALTA 1x750ml
+  line_total: '245.88'
+  quantity: '12'
+  sku: '641068'
+  tax_code: G
+  unit_price: '20.49'

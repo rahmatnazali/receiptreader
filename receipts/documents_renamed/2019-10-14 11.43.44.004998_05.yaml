@@ -1,0 +1,50 @@
+bill:
+  card_last_four: '4112'
+  card_type: VI
+  date: 06-14-2019
+  grand_total: '579.62'
+  time: '18:23:57'
+  total_deposit: '28.60'
+  total_gst: '26.24'
+  total_pst: null
+  trans_num: '302586487013'
+bill_from:
+  address: '#122 370 E Broadway'
+  name: '#123 Kingsgate Mall BCLS'
+bill_to:
+  custom_PST: P10093339
+  custom_address: 2321 MAIN STREET
+  custom_city: VANCOUVER
+  custom_name: FOX
+  custom_number: '305810'
+  custom_postal: V5T 3C9
+  custom_prov: BC
+line_items:
+- container_deposit: '14.40'
+  description: MOLSON OLD STYLE PILSNER CAN
+  line_total: '214.74'
+  quantity: '6'
+  sku: '681155'
+  tax_code: G
+  unit_price: '35.79'
+- container_deposit: '9.00'
+  description: OLD STYLE PILSNER CAN 15X355M
+  line_total: '102.32'
+  quantity: '6'
+  sku: '929661'
+  tax_code: G
+  unit_price: '23.29'
+- container_deposit: '4.80'
+  description: DOS EQUIS XX ESPECIAL LAGER 6X359M
+  line_total: '33.99'
+  quantity: '8'
+  sku: '156174'
+  tax_code: G
+  unit_price: '12.79'
+- container_deposit: null
+  description: SOBIESKI 1X1.14L
+  line_total: null
+  quantity: null
+  sku: '804252'
+  tax_code: null
+  unit_price: null

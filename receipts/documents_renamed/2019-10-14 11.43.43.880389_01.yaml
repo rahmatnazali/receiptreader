@@ -1,0 +1,36 @@
+bill:
+  card_last_four: '4112'
+  card_type: VI
+  date: 08-10-2019
+  grand_total: '239.18'
+  time: '15:37:47'
+  total_deposit: '0.90'
+  total_gst: '11.35'
+  total_pst: null
+  trans_num: '301587057583'
+bill_from:
+  address: '#122-370 E Broadway'
+  name: '#123 Kingsgate Mall BCLS'
+bill_to:
+  custom_PST: null
+  custom_address: null
+  custom_city: null
+  custom_name: null
+  custom_number: null
+  custom_postal: null
+  custom_prov: null
+line_items:
+- container_deposit: '0.40'
+  description: CAPTAIN MORGAN WHITE 1X1.14L
+  line_total: '66.98'
+  quantity: '2'
+  sku: '1438'
+  tax_code: G
+  unit_price: '33.49'
+- container_deposit: null
+  description: CAZADORES BLANCO 1X750ml
+  line_total: '159.95'
+  quantity: '5'
+  sku: '773143'
+  tax_code: G
+  unit_price: '31.99'

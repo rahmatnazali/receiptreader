@@ -1,0 +1,29 @@
+bill:
+  card_last_four: '4112'
+  card_type: VI
+  date: 09-07-2019
+  grand_total: '67.56'
+  time: '13:03:00'
+  total_deposit: '0.40'
+  total_gst: '3.20'
+  total_pst: null
+  trans_num: '311587332236'
+bill_from:
+  address: '#122 370 E Broadway'
+  name: '#123 Kingsgate Mall BCLS'
+bill_to:
+  custom_PST: null
+  custom_address: null
+  custom_city: null
+  custom_name: null
+  custom_number: null
+  custom_postal: null
+  custom_prov: null
+line_items:
+- container_deposit: '0.40'
+  description: BOTTEGA PROSECCO TREVISO 1X750ml
+  line_total: '63.96'
+  quantity: '4'
+  sku: '95711'
+  tax_code: G
+  unit_price: '15.99'

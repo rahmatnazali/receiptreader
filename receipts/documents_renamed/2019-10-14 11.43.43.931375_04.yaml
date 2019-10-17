@@ -1,0 +1,57 @@
+bill:
+  card_last_four: '4527'
+  card_type: VI
+  date: 08-08-2019
+  grand_total: '471.32'
+  time: '10:11:01'
+  total_deposit: '2.20'
+  total_gst: '22.34'
+  total_pst: null
+  trans_num: 017587038351
+bill_from:
+  address: 5555 Cambie Street
+  name: 'BCLS #160 39th & Cambie'
+bill_to:
+  custom_PST: null
+  custom_address: null
+  custom_city: null
+  custom_name: null
+  custom_number: null
+  custom_postal: null
+  custom_prov: null
+line_items:
+- container_deposit: '1.20'
+  description: ROAD13 HONEST JOHN'S ROSE 1X750m
+  line_total: '59.98'
+  quantity: '12'
+  sku: '357327'
+  tax_code: G
+  unit_price: '16.49'
+- container_deposit: '0.20'
+  description: EL JIMADOR BLANCO 1X750mL
+  line_total: '83.96'
+  quantity: '2'
+  sku: '460378'
+  tax_code: G
+  unit_price: '29.99'
+- container_deposit: null
+  description: TRIPLE SEC HENKES 1X750ml
+  line_total: null
+  quantity: '4'
+  sku: '178012'
+  tax_code: null
+  unit_price: '20.99'
+- container_deposit: '0.40'
+  description: CAPTAIN MORGAN - SPICED 1X750m
+  line_total: '55.98'
+  quantity: '2'
+  sku: '500512'
+  tax_code: G
+  unit_price: '27.99'
+- container_deposit: '0.20'
+  description: APEROL BARBIERI APERTIVO 1X750ml
+  line_total: '48.98'
+  quantity: '2'
+  sku: '144071'
+  tax_code: G
+  unit_price: '24.49'
