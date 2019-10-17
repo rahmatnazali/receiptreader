@@ -45,12 +45,14 @@ post_save.connect(document_save, sender=Document)
 
 
 class Receipt(models.Model):
+    def __str__(self):
+        return str(self.id)
 
     pass
 
 
 class BillFrom(models.Model):
-    receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE)
+    receipt = models.OneToOneField(Receipt, on_delete=models.CASCADE, null=True, blank=True)
 
     address = models.CharField(max_length=250, verbose_name='Address', null=True, blank=True)
     name = models.CharField(max_length=250, verbose_name='Name', null=True, blank=True)
@@ -61,10 +63,11 @@ class BillFrom(models.Model):
     name: '#123 Kingsgate Mall BCLS'
     """
 
-class Bill(models.Model):
-    receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE)
 
-    transaction_number = models.CharField(max_length=30, verbose_name='Postal', null=True, blank=True)
+class Bill(models.Model):
+    receipt = models.OneToOneField(Receipt, on_delete=models.CASCADE, null=True, blank=True)
+
+    transaction_number = models.CharField(max_length=30, verbose_name='Transaction Number', null=True, blank=True)
     date = models.DateTimeField(verbose_name='Date', null=True, blank=True)
     time = models.TimeField(verbose_name='Time', null=True, blank=True)
     datetime = models.DateTimeField(verbose_name='Date Time', null=True, blank=True)
@@ -96,7 +99,7 @@ class Bill(models.Model):
 
 
 class BillTo(models.Model):
-    receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE)
+    receipt = models.OneToOneField(Receipt, on_delete=models.CASCADE, null=True, blank=True)
 
     custom_pst = models.CharField(max_length=50, verbose_name='PST', null=True, blank=True)
     custom_number = models.CharField(max_length=50, verbose_name='Number', null=True, blank=True)
@@ -105,7 +108,7 @@ class BillTo(models.Model):
 
     custom_city = models.CharField(max_length=50, verbose_name='City', null=True, blank=True)
     custom_prov = models.CharField(max_length=5, verbose_name='Prov', null=True, blank=True)
-    custom_postal = models.CharField(max_length=50, verbose_name='Postal', null=True, blank=True)
+    custom_postal = models.CharField(max_length=10, verbose_name='Postal', null=True, blank=True)
 
     """
     bill_to:
@@ -118,8 +121,9 @@ class BillTo(models.Model):
     custom_prov: "BC"
     """
 
+
 class LineItem(models.Model):
-    receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE)
+    receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE, null=True, blank=True)
 
     sku = models.IntegerField(verbose_name='SKU')
     description = models.CharField(verbose_name='Item Name', max_length=100)
@@ -127,13 +131,13 @@ class LineItem(models.Model):
     quantity = models.IntegerField(verbose_name='Quantity', null=True, blank=True)
     line_total = models.FloatField(verbose_name='Unit Sub Total', null=True, blank=True)
 
-    container_deposit = models.FloatField()
+    container_deposit = models.FloatField(null=True, blank=True)
     tax_code = models.CharField(max_length=2, choices=(
         (
             ('G', 'G'),
             ('L', 'L')
         )
-    ))
+    ), null=True, blank=True)
 
     """
     line_items:
