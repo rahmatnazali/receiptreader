@@ -45,14 +45,16 @@ post_save.connect(document_save, sender=Document)
 
 
 class Receipt(models.Model):
+
     pass
 
 
 class BillFrom(models.Model):
     receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE)
 
-    address = models.CharField(max_length=250)
-    name = models.CharField(max_length=250)
+    address = models.CharField(max_length=250, verbose_name='Address', null=True, blank=True)
+    name = models.CharField(max_length=250, verbose_name='Name', null=True, blank=True)
+
     """
     bill_from:
     address: '#122 370 E Broadway'
@@ -62,22 +64,22 @@ class BillFrom(models.Model):
 class Bill(models.Model):
     receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE)
 
-    transaction_number = models.CharField(max_length=30)
-    date = models.DateTimeField()
-    time = models.TimeField()
-    datetime = models.DateTimeField()
+    transaction_number = models.CharField(max_length=30, verbose_name='Postal', null=True, blank=True)
+    date = models.DateTimeField(verbose_name='Date', null=True, blank=True)
+    time = models.TimeField(verbose_name='Time', null=True, blank=True)
+    datetime = models.DateTimeField(verbose_name='Date Time', null=True, blank=True)
 
-    card_last_four = models.CharField(max_length=4)
+    card_last_four = models.CharField(max_length=4, verbose_name='Card Last 4 Number', null=True, blank=True)
     card_type = models.CharField(max_length=2, choices=(
         ('VI', 'VI'),
         ('MC', 'MC'),
         ('DP', 'DP'),
-    ))
+    ), verbose_name='Card Type', null=True, blank=True)
 
-    grand_total = models.FloatField()
-    total_deposit = models.FloatField()
-    total_gst = models.FloatField()
-    total_pst = models.FloatField()
+    grand_total = models.FloatField(verbose_name='Grand Total', null=True, blank=True)
+    total_deposit = models.FloatField(verbose_name='Total Deposit', null=True, blank=True)
+    total_gst = models.FloatField(verbose_name='Total GST', null=True, blank=True)
+    total_pst = models.FloatField(verbose_name='Total PST', null=True, blank=True)
 
     """
     bill:
@@ -96,13 +98,14 @@ class Bill(models.Model):
 class BillTo(models.Model):
     receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE)
 
-    custom_pst = models.CharField(max_length=50)
-    custom_address = models.CharField(max_length=50)
-    custom_city = models.CharField(max_length=50)
-    custom_name = models.CharField(max_length=50)
-    custom_number = models.CharField(max_length=50)
-    custom_postal = models.CharField(max_length=50)
-    custom_prov = models.CharField(max_length=5)
+    custom_pst = models.CharField(max_length=50, verbose_name='PST', null=True, blank=True)
+    custom_number = models.CharField(max_length=50, verbose_name='Number', null=True, blank=True)
+    custom_name = models.CharField(max_length=50, verbose_name='Name', null=True, blank=True)
+    custom_address = models.CharField(max_length=50, verbose_name='Address', null=True, blank=True)
+
+    custom_city = models.CharField(max_length=50, verbose_name='City', null=True, blank=True)
+    custom_prov = models.CharField(max_length=5, verbose_name='Prov', null=True, blank=True)
+    custom_postal = models.CharField(max_length=50, verbose_name='Postal', null=True, blank=True)
 
     """
     bill_to:
@@ -118,18 +121,19 @@ class BillTo(models.Model):
 class LineItem(models.Model):
     receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE)
 
+    sku = models.IntegerField(verbose_name='SKU')
+    description = models.CharField(verbose_name='Item Name', max_length=100)
+    unit_price = models.FloatField(verbose_name='Unit Price', null=True, blank=True)
+    quantity = models.IntegerField(verbose_name='Quantity', null=True, blank=True)
+    line_total = models.FloatField(verbose_name='Unit Sub Total', null=True, blank=True)
+
     container_deposit = models.FloatField()
-    description = models.CharField(max_length=100)
-    line_total = models.FloatField()
-    quantity = models.IntegerField()
-    sku = models.IntegerField()
     tax_code = models.CharField(max_length=2, choices=(
         (
             ('G', 'G'),
             ('L', 'L')
         )
     ))
-    unit_price = models.FloatField()
 
     """
     line_items:
