@@ -1,0 +1,29 @@
+bill:
+  card_last_four: '8276'
+  card_type: DP
+  date: 09-15-2019
+  grand_total: '86.13'
+  time: '18:19:40'
+  total_deposit: '2.40'
+  total_gst: '3.99'
+  total_pst: null
+  trans_num: '704587414477'
+bill_from:
+  address: 2395 Cambie Street
+  name: 'BCLS #177 8th&Cambie'
+bill_to:
+  custom_PST: P10093339
+  custom_address: 2321 MAIN STREET
+  custom_city: VANCOUVER
+  custom_name: FOX
+  custom_number: '305810'
+  custom_postal: V5T 3C9
+  custom_prov: BC
+line_items:
+- container_deposit: '2.40'
+  description: DRIFTWOOD BREWERY- FAT TUG IPA 4X473 ]
+  line_total: null
+  quantity: '6'
+  sku: '127770'
+  tax_code: null
+  unit_price: '13.29'

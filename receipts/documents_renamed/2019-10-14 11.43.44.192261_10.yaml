@@ -1,0 +1,29 @@
+bill:
+  card_last_four: '4112'
+  card_type: VI
+  date: 08-31-2019
+  grand_total: '54.86'
+  time: '16:05:46'
+  total_deposit: '2.50'
+  total_gst: '54.86'
+  total_pst: null
+  trans_num: '303587266785'
+bill_from:
+  address: '#122 370 E Broadway'
+  name: '#123 Kingsgate Mall BCLS'
+bill_to:
+  custom_PST: P10093339
+  custom_address: 2321 MAIN STREET
+  custom_city: VANCOUVER
+  custom_name: FOX
+  custom_number: '305810'
+  custom_postal: V5T 3C9
+  custom_prov: BC
+line_items:
+- container_deposit: '2.40'
+  description: NUDE VODKA SODA PEACH 6X355ml
+  line_total: null
+  quantity: '4'
+  sku: '135792'
+  tax_code: null
+  unit_price: '12.49'

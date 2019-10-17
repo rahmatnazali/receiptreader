@@ -1,0 +1,4 @@
+django
+google-cloud-storage
+google-cloud-vision
+Pillow
