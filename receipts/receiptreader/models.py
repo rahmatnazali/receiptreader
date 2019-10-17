@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from receiptreader.google_vision_api import GoogleVisionApi
 import os
-
+import datetime
 
 # from bs4 import BeautifulSoup
 
@@ -63,6 +63,8 @@ class BillFrom(models.Model):
     name: '#123 Kingsgate Mall BCLS'
     """
 
+# todo: Bill on save, merge date and time into datetime
+custom_date = datetime.datetime(2020, 2, 20, 20, 20 ,20)
 
 class Bill(models.Model):
     receipt = models.OneToOneField(Receipt, on_delete=models.CASCADE, null=True, blank=True)
@@ -70,7 +72,7 @@ class Bill(models.Model):
     transaction_number = models.CharField(max_length=30, verbose_name='Transaction Number', null=True, blank=True)
     date = models.DateTimeField(verbose_name='Date', null=True, blank=True)
     time = models.TimeField(verbose_name='Time', null=True, blank=True)
-    datetime = models.DateTimeField(verbose_name='Date Time', null=True, blank=True)
+    datetime = models.DateTimeField(verbose_name='Date Time', null=True, blank=True, default=custom_date)
 
     card_last_four = models.CharField(max_length=4, verbose_name='Card Last 4 Number', null=True, blank=True)
     card_type = models.CharField(max_length=2, choices=(
