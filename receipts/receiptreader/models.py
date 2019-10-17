@@ -64,7 +64,15 @@ class BillFrom(models.Model):
     """
 
 # todo: Bill on save, merge date and time into datetime
-custom_date = datetime.datetime(2020, 2, 20, 20, 20 ,20)
+d = '08-03-2019'
+t = '14:46:0'
+
+if t.endswith(':0'):
+    t = t.replace(':0', ':00')
+dt = d + ' ' + t
+
+# custom_date = datetime.datetime(2020, 2, 20, 20, 20 ,20)
+custom_date = datetime.datetime.strptime(dt, '%m-%d-%Y %H:%M:%S')
 
 class Bill(models.Model):
     receipt = models.OneToOneField(Receipt, on_delete=models.CASCADE, null=True, blank=True)
@@ -98,6 +106,10 @@ class Bill(models.Model):
     total_pst: null
     trans_num: '301586985795'
     """
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.datetime = custom_date
+        super().save(force_insert, force_update, using, update_fields)
 
 
 class BillTo(models.Model):
