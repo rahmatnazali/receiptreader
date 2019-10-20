@@ -1,8 +1,8 @@
-import function_file
-import function_parse
-import function_regex
-import function_cleaner
-import class_general
+import receiptreader.lib.function_parse as function_parse
+import receiptreader.lib.function_regex as function_regex
+import receiptreader.lib.function_cleaner as function_cleaner
+import receiptreader.lib.class_general as class_general
+import receiptreader.lib.function_parse as function_parse
 from pathlib import Path
 
 def merge_s_d(dict_line_item, string):

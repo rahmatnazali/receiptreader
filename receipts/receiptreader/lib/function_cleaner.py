@@ -1,4 +1,4 @@
-import function_regex
+import receiptreader.lib.function_regex as function_regex
 
 invalid_description = [
     'transaction',

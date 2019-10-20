@@ -1,5 +1,5 @@
 import json
-import class_general
+import receiptreader.lib.class_general as class_general
 
 
 def parse_json_to_receipt(json_file_pointer):
