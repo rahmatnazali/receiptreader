@@ -172,16 +172,18 @@ class LineItem(models.Model):
 
 class RawReceipt(models.Model):
     processed_receipt = models.OneToOneField(ProcessedReceipt, on_delete=models.DO_NOTHING, related_name='pr', null=True, blank=True)
+    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     def __str__(self):
-        return str(self.id)
+        # return str(self.id)
+        return '{} {}'.format(self.id, self.timestamp)
 
 class Image(models.Model):
     raw_receipt = models.ForeignKey(RawReceipt, on_delete=models.CASCADE)
 
     binary = models.ImageField(verbose_name='Document (Image/PDF)', upload_to='documents')
     raw_ocr_result = models.TextField(verbose_name='Raw OCR Result (let it empty)', null=True, blank=True)
-    timestamp = models.DateField(auto_now=False, auto_now_add=True)
+    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     def absolute_path(self):
         return str(pathlib.Path(self.binary.name).absolute())

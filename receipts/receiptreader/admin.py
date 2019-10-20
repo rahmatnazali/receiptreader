@@ -61,7 +61,7 @@ class RawReceiptAdmin(admin.ModelAdmin):
     inlines = [
         ImageInline
     ]
-    fields = ()
+    exclude = ('processed_receipt', 'timestamp')
 
     def response_add(self, request, obj, post_url_continue=None):
         process_all_images(obj)
