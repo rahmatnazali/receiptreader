@@ -1,3 +1,4 @@
+pyyaml
 django
 google-cloud-storage
 google-cloud-vision
