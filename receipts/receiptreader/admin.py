@@ -2,9 +2,8 @@ from django.contrib import admin
 from receiptreader import models
 
 # Register your models here.
-admin.site.register(models.Document)
-
-admin.site.register(models.RawJson)
+admin.site.register(models.RawReceipt)
+# admin.site.register(models.RawJson)
 
 
 # Custom Admin
@@ -29,7 +28,7 @@ class ReceiptAdmin(admin.ModelAdmin):
         LineItemInline
     ]
 
-admin.site.register(models.Receipt, ReceiptAdmin)
+admin.site.register(models.ProcessedReceipt, ReceiptAdmin)
 
 ## Debug purpose
 # admin.site.register(models.Bill)

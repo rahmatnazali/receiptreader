@@ -1,50 +1,44 @@
 from django.db import models
 from django.db.models.signals import post_save
-from receiptreader.google_vision_api import GoogleVisionApi
-import os
 import datetime
-
+import pathlib
+from .helper import textify_binary
 # from bs4 import BeautifulSoup
 
 # Create your models here.
 
 # Document storage
-class Document(models.Model):
-    image = models.ImageField(upload_to='documents')
+class RawReceipt(models.Model):
+    def __str__(self):
+        return str(self.id)
 
-    def filename(self):
-        return os.path.basename(self.file.name)
+class Image(models.Model):
+    binary = models.ImageField(verbose_name='Document (Image/PDF)', upload_to='documents')
+    raw_ocr_result = models.TextField(verbose_name='Raw OCR Result (let it empty)', null=True, blank=True)
+    timestamp = models.DateField(auto_now=False, auto_now_add=True)
 
     def __str__(self):
-        return "{}".format(self.image.file)
+        # return str(self.binary.name)
+        return str(pathlib.Path(self.binary.name).absolute())
 
-
-class RawJson(models.Model):
-    document = models.ForeignKey(Document, on_delete=models.CASCADE)
-    text = models.TextField()
-    timeStamp = models.DateField(auto_now=False, auto_now_add=True)
-
-    def __str__(self):
-        return self.document.image.name
-
-
-def document_save(sender, instance, **kwargs):
-    # print("Instance = ", instance)
-    # googlevision = GoogleVisionApi()
-    # rawjson = googlevision.ocr_image(instance)
-    # RawJson.objects.create(document=instance, text=rawjson)
-    pass
+def image_post_save(sender, image_instance, **kwargs):
+    print("Instance = ", image_instance)
+    print(type(image_instance))
+    image_instance.raw_ocr_result = textify_binary(image_instance.__str__())
+    image_instance.save()
 
 
 # def rawjson_save(sender, instance, **kwargs):
 
-post_save.connect(document_save, sender=Document)
+post_save.connect(image_post_save, sender=Image)
 
 
 # #Output after document is read by Google vision and JSON is returned
 
 
-class Receipt(models.Model):
+class ProcessedReceipt(models.Model):
+    raw_receipt = models.OneToOneField(RawReceipt, on_delete=models.DO_NOTHING)
+
     def __str__(self):
         return str(self.id)
 
@@ -52,7 +46,7 @@ class Receipt(models.Model):
 
 
 class BillFrom(models.Model):
-    receipt = models.OneToOneField(Receipt, on_delete=models.CASCADE, null=True, blank=True)
+    receipt = models.OneToOneField(ProcessedReceipt, on_delete=models.CASCADE, null=True, blank=True)
 
     address = models.CharField(max_length=250, verbose_name='Address', null=True, blank=True)
     name = models.CharField(max_length=250, verbose_name='Name', null=True, blank=True)
@@ -75,7 +69,7 @@ dt = d + ' ' + t
 custom_date = datetime.datetime.strptime(dt, '%m-%d-%Y %H:%M:%S')
 
 class Bill(models.Model):
-    receipt = models.OneToOneField(Receipt, on_delete=models.CASCADE, null=True, blank=True)
+    receipt = models.OneToOneField(ProcessedReceipt, on_delete=models.CASCADE, null=True, blank=True)
 
     transaction_number = models.CharField(max_length=30, verbose_name='Transaction Number', null=True, blank=True)
     date = models.DateTimeField(verbose_name='Date', null=True, blank=True)
@@ -113,7 +107,7 @@ class Bill(models.Model):
 
 
 class BillTo(models.Model):
-    receipt = models.OneToOneField(Receipt, on_delete=models.CASCADE, null=True, blank=True)
+    receipt = models.OneToOneField(ProcessedReceipt, on_delete=models.CASCADE, null=True, blank=True)
 
     custom_pst = models.CharField(max_length=50, verbose_name='PST', null=True, blank=True)
     custom_number = models.CharField(max_length=50, verbose_name='Number', null=True, blank=True)
@@ -137,7 +131,7 @@ class BillTo(models.Model):
 
 
 class LineItem(models.Model):
-    receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE, null=True, blank=True)
+    receipt = models.ForeignKey(ProcessedReceipt, on_delete=models.CASCADE, null=True, blank=True)
 
     sku = models.IntegerField(verbose_name='SKU')
     description = models.CharField(verbose_name='Item Name', max_length=100)

@@ -1,10 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from receiptreader.models import Document
+from receiptreader.models import RawReceipt
 
 # Create your views here.
 def index(request):
-  documents = Document.objects.all()
+  documents = RawReceipt.objects.all()
   #output = ', '.join([d.filename for d in documents])
   #return HttpResponse(output)
 
