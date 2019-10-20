@@ -17,7 +17,7 @@ class GoogleVisionApi:
         self.client = vision.ImageAnnotatorClient()
 
 
-    def ocr_image(self, document):
+    def ocr_image(self, document_binary):
         # file_name = os.path.join(
         # os.path.dirname(__file__),
         # 'resources/wakeupcat.jpg')
@@ -26,7 +26,7 @@ class GoogleVisionApi:
         # with io.open(file_name, 'rb') as image_file:
         #     content = image_file.read()
         client = vision.ImageAnnotatorClient()
-        content = document.image.file.read()
+        content = document_binary
 
         image = vision.types.Image(content=content)
 
