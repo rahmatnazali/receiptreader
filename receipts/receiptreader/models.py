@@ -6,35 +6,16 @@ import pathlib
 
 # Create your models here.
 
-# Document storage
-class RawReceipt(models.Model):
-    def __str__(self):
-        return str(self.id)
-
-class Image(models.Model):
-    raw_receipt = models.ForeignKey(RawReceipt, on_delete=models.CASCADE)
-
-    binary = models.ImageField(verbose_name='Document (Image/PDF)', upload_to='documents')
-    raw_ocr_result = models.TextField(verbose_name='Raw OCR Result (let it empty)', null=True, blank=True)
-    timestamp = models.DateField(auto_now=False, auto_now_add=True)
-
-    def absolute_path(self):
-        return str(pathlib.Path(self.binary.name).absolute())
-
-    def __str__(self):
-        # return str(self.binary.name)
-        return str(pathlib.Path(self.binary.name).absolute())
-
-
-
-
 # Output after document is read by Google vision and JSON is returned
 
 class ProcessedReceipt(models.Model):
-    raw_receipt = models.OneToOneField(RawReceipt, on_delete=models.DO_NOTHING, related_name='processed_receipt', null=True, blank=True)
+    # raw_receipt = models.OneToOneField(RawReceipt, on_delete=models.DO_NOTHING, related_name='a', null=True, blank=True)
 
     def __str__(self):
-        return str(self.id)
+        if self.bill.transaction_number and self.billto.custom_name:
+            return '{} {}'.format(self.bill.transaction_number, self.billto.custom_name)
+        else:
+            return str(self.id)
 
     def merge_from_primitive(self, primitive_receipt_class):
         primitive_dict = primitive_receipt_class.get_dict()
@@ -101,25 +82,13 @@ class BillFrom(models.Model):
     name: '#123 Kingsgate Mall BCLS'
     """
 
-
-# todo: Bill on save, merge date and time into datetime
-d = '08-03-2019'
-t = '14:46:0'
-
-if t.endswith(':0'):
-    t = t.replace(':0', ':00')
-dt = d + ' ' + t
-
-# custom_date = datetime.datetime(2020, 2, 20, 20, 20 ,20)
-custom_date = datetime.datetime.strptime(dt, '%m-%d-%Y %H:%M:%S')
-
 class Bill(models.Model):
     receipt = models.OneToOneField(ProcessedReceipt, on_delete=models.CASCADE, null=True, blank=True)
 
     transaction_number = models.CharField(max_length=30, verbose_name='Transaction Number', null=True, blank=True)
-    date = models.DateTimeField(verbose_name='Date', null=True, blank=True)
-    time = models.TimeField(verbose_name='Time', null=True, blank=True)
-    datetime = models.DateTimeField(verbose_name='Date Time', null=True, blank=True, default=custom_date)
+    # date = models.DateTimeField(verbose_name='Date', null=True, blank=True)
+    # time = models.TimeField(verbose_name='Time', null=True, blank=True)
+    datetime = models.DateTimeField(verbose_name='Date Time', null=True, blank=True)
 
     card_last_four = models.CharField(max_length=4, verbose_name='Card Last 4 Number', null=True, blank=True)
     card_type = models.CharField(max_length=2, choices=(
@@ -130,8 +99,8 @@ class Bill(models.Model):
 
     grand_total = models.FloatField(verbose_name='Grand Total', null=True, blank=True)
     total_deposit = models.FloatField(verbose_name='Total Deposit', null=True, blank=True)
-    total_gst = models.FloatField(verbose_name='Total GST', null=True, blank=True)
-    total_pst = models.FloatField(verbose_name='Total PST', null=True, blank=True)
+    total_gst = models.FloatField(verbose_name='Total GST', null=True, blank=True, default=0)
+    total_pst = models.FloatField(verbose_name='Total PST', null=True, blank=True, default=0)
 
     """
     bill:
@@ -145,11 +114,6 @@ class Bill(models.Model):
     total_pst: null
     trans_num: '301586985795'
     """
-
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        self.datetime = custom_date
-        super().save(force_insert, force_update, using, update_fields)
-
 
 class BillTo(models.Model):
     receipt = models.OneToOneField(ProcessedReceipt, on_delete=models.CASCADE, null=True, blank=True)
@@ -202,6 +166,31 @@ class LineItem(models.Model):
     tax_code: G
     unit_price: '48.49'
     """
+
+
+# Scanned Document storage
+
+class RawReceipt(models.Model):
+    processed_receipt = models.OneToOneField(ProcessedReceipt, on_delete=models.DO_NOTHING, related_name='pr', null=True, blank=True)
+
+    def __str__(self):
+        return str(self.id)
+
+class Image(models.Model):
+    raw_receipt = models.ForeignKey(RawReceipt, on_delete=models.CASCADE)
+
+    binary = models.ImageField(verbose_name='Document (Image/PDF)', upload_to='documents')
+    raw_ocr_result = models.TextField(verbose_name='Raw OCR Result (let it empty)', null=True, blank=True)
+    timestamp = models.DateField(auto_now=False, auto_now_add=True)
+
+    def absolute_path(self):
+        return str(pathlib.Path(self.binary.name).absolute())
+
+    def __str__(self):
+        # return str(self.binary.name)
+        return str(pathlib.Path(self.binary.name).absolute())
+
+
 
 # class Output(models.Model):
 #     document = models.ForeignKey(Document, on_delete=models.CASCADE)
