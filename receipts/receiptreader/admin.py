@@ -3,12 +3,23 @@ from receiptreader import models
 import receiptreader.helper
 
 def process_all_images(obj):
-    # todo: process all the sub images here
+    # process all the sub images here
     for image in obj.image_set.all():
         if not image.raw_ocr_result:
             raw_json = receiptreader.helper.textify_binary(image.absolute_path())
             image.raw_ocr_result = raw_json
             image.save()
+            continue
+
+            # todo: parse image.raw_ocr to new receipt
+            if obj.processed_receipt is None:
+                processed_receipt = models.ProcessedReceipt()
+                processed_receipt.raw_receipt = obj
+
+                # todo: parse from primitive to django models
+                primitive_receipt_class = receiptreader.helper.parse_raw_text_to_receipt(image.raw_ocr_result)
+                processed_receipt.merge_from_primitive(primitive_receipt_class)
+                processed_receipt.save()
 
 
 # For raw receipt

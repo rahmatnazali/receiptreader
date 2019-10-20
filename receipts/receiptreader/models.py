@@ -2,7 +2,6 @@ from django.db import models
 from django.db.models.signals import post_save
 import datetime
 import pathlib
-from .helper import textify_binary
 # from bs4 import BeautifulSoup
 
 # Create your models here.
@@ -26,16 +25,20 @@ class Image(models.Model):
         # return str(self.binary.name)
         return str(pathlib.Path(self.binary.name).absolute())
 
-# #Output after document is read by Google vision and JSON is returned
 
+
+
+# Output after document is read by Google vision and JSON is returned
 
 class ProcessedReceipt(models.Model):
-    raw_receipt = models.OneToOneField(RawReceipt, on_delete=models.DO_NOTHING)
+    raw_receipt = models.OneToOneField(RawReceipt, on_delete=models.DO_NOTHING, related_name='processed_receipt')
 
     def __str__(self):
         return str(self.id)
 
-    pass
+    def merge_from_primitive(self, primitive_receipt_class):
+        # todo:
+        pass
 
 
 class BillFrom(models.Model):
@@ -49,6 +52,7 @@ class BillFrom(models.Model):
     address: '#122 370 E Broadway'
     name: '#123 Kingsgate Mall BCLS'
     """
+
 
 # todo: Bill on save, merge date and time into datetime
 d = '08-03-2019'
