@@ -23,16 +23,21 @@ class Image(models.Model):
         # return str(self.binary.name)
         return str(pathlib.Path(self.binary.name).absolute())
 
-def image_post_save(sender, image_instance, **kwargs):
-    print("Instance = ", image_instance)
+def raw_receipt_post_save(sender, instance = None, **kwargs):
+    print("Instance raw receipt = ", instance)
+    print(type(instance))
+    print(instance.image_set.all())
+
+
+def image_post_save(sender, image_instance = None, **kwargs):
+    print("Instance image = ", image_instance)
     print(type(image_instance))
-    image_instance.raw_ocr_result = textify_binary(image_instance.__str__())
-    image_instance.save()
-
-
-# def rawjson_save(sender, instance, **kwargs):
+    # if image_instance:
+    #     image_instance.raw_ocr_result = textify_binary(image_instance.__str__())
+    #     image_instance.save()
 
 post_save.connect(image_post_save, sender=Image)
+post_save.connect(raw_receipt_post_save, sender=RawReceipt)
 
 
 # #Output after document is read by Google vision and JSON is returned

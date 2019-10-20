@@ -9,11 +9,23 @@ from receiptreader import models
 # For raw receipt
 class ImageInline(admin.TabularInline):
     model = models.Image
+    fields = ('binary',)
+    min_num = 1
 
 class RawReceiptAdmin(admin.ModelAdmin):
     inlines = [
         ImageInline
     ]
+
+    def response_add(self, request, obj, post_url_continue=None):
+        print('response_add')
+        print(obj)
+        print(obj.image_set.all())
+
+        # todo: process all the sub images here
+
+        return super().response_add(request, obj, post_url_continue)
+
 
 admin.site.register(models.RawReceipt, RawReceiptAdmin)
 admin.site.register(models.Image)
