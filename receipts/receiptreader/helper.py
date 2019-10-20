@@ -7,9 +7,7 @@ from receiptreader.google_vision_api import GoogleVisionApi
 import pathlib
 
 def textify_binary(filepath):
-    # for development purpose, currently just returns the filepath
-    # todo: remove this for production / testing
-    return filepath
+    return filepath # todo: remove this line for production / testing
     try:
         path = pathlib.Path(filepath)
         googlevision = GoogleVisionApi()
@@ -18,6 +16,7 @@ def textify_binary(filepath):
             return rawjson
     except Exception as e:
         print(e)
+    return ""
 
 def merge_s_d(dict_line_item, string):
     result_s_d = function_regex.re_find_all_s_d(string)
