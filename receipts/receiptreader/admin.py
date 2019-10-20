@@ -2,11 +2,25 @@ from django.contrib import admin
 from receiptreader import models
 
 # Register your models here.
-admin.site.register(models.RawReceipt)
-# admin.site.register(models.RawJson)
 
 
 # Custom Admin
+
+# For raw receipt
+class ImageInline(admin.TabularInline):
+    model = models.Image
+
+class RawReceiptAdmin(admin.ModelAdmin):
+    inlines = [
+        ImageInline
+    ]
+
+admin.site.register(models.RawReceipt, RawReceiptAdmin)
+admin.site.register(models.Image)
+# admin.site.register(models.RawJson)
+
+
+# For processed receipt
 
 class BillInline(admin.StackedInline):
     model = models.Bill
