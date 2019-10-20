@@ -31,14 +31,62 @@ class Image(models.Model):
 # Output after document is read by Google vision and JSON is returned
 
 class ProcessedReceipt(models.Model):
-    raw_receipt = models.OneToOneField(RawReceipt, on_delete=models.DO_NOTHING, related_name='processed_receipt')
+    raw_receipt = models.OneToOneField(RawReceipt, on_delete=models.DO_NOTHING, related_name='processed_receipt', null=True, blank=True)
 
     def __str__(self):
         return str(self.id)
 
     def merge_from_primitive(self, primitive_receipt_class):
-        # todo:
-        pass
+        primitive_dict = primitive_receipt_class.get_dict()
+
+        self.save()
+        bill_from = BillFrom()
+        bill_from.receipt = self
+        bill_from.name = primitive_dict['bill_from']['name']
+        bill_from.address = primitive_dict['bill_from']['address']
+        bill_from.save()
+
+        bill_to = BillTo()
+        bill_to.receipt = self
+        bill_to.custom_pst = primitive_dict['bill_to']['custom_PST']
+        bill_to.custom_number = primitive_dict['bill_to']['custom_number']
+        bill_to.custom_name = primitive_dict['bill_to']['custom_name']
+        bill_to.custom_address = primitive_dict['bill_to']['custom_address']
+        bill_to.custom_city = primitive_dict['bill_to']['custom_city']
+        bill_to.custom_prov = primitive_dict['bill_to']['custom_prov']
+        bill_to.custom_postal = primitive_dict['bill_to']['custom_postal']
+        bill_to.save()
+
+        bill = Bill()
+        bill.receipt = self
+        bill.card_last_four= primitive_dict['bill']['card_last_four']
+        bill.card_type = primitive_dict['bill']['card_type']
+        bill.grand_total = primitive_dict['bill']['grand_total']
+        bill.total_deposit = primitive_dict['bill']['total_deposit']
+        bill.total_gst = primitive_dict['bill']['total_gst']
+        bill.total_pst = primitive_dict['bill']['total_pst']
+        bill.transaction_number = primitive_dict['bill']['trans_num']
+
+        raw_date = primitive_dict['bill']['date']
+        raw_time = primitive_dict['bill']['time']
+        raw_time = raw_time.replace(':0', ':00') if raw_time.endswith(':0') else raw_time
+        raw_merged_datetime = raw_date + ' ' + raw_time
+        cleaned_datetime = datetime.datetime.strptime(raw_merged_datetime, '%m-%d-%Y %H:%M:%S')
+        bill.datetime = cleaned_datetime
+
+        bill.save()
+
+        for raw_line_item in primitive_dict['line_items']:
+            line_items = LineItem()
+            line_items.receipt = self
+            line_items.container_deposit = raw_line_item['container_deposit']
+            line_items.description = raw_line_item['description']
+            line_items.line_total = raw_line_item['line_total']
+            line_items.quantity = raw_line_item['quantity']
+            line_items.sku = raw_line_item['sku']
+            line_items.tax_code = raw_line_item['tax_code']
+            line_items.unit_price = raw_line_item['unit_price']
+            line_items.save()
 
 
 class BillFrom(models.Model):

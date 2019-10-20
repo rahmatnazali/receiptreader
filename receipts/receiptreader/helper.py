@@ -7,6 +7,8 @@ from receiptreader.google_vision_api import GoogleVisionApi
 import pathlib
 
 def textify_binary(filepath):
+    # for development purpose, currently just returns the filepath
+    # todo: remove this for production / testing
     return filepath
     try:
         path = pathlib.Path(filepath)
