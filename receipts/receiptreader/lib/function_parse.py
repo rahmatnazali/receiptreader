@@ -10,6 +10,9 @@ def parse_json_to_receipt(json_file_pointer):
 def parse_json_to_dict(json_file_pointer):
     return json.load(json_file_pointer)
 
+def parse_json_string_to_dict(json_string):
+    return json.loads(json_string, encoding='utf-8')
+
 
 def parse_dict_to_receipt(json_dict):
     json_full_text = json_parse_fulltext(json_dict)

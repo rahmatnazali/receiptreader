@@ -1,14 +1,18 @@
 from django.contrib import admin
 from receiptreader import models
 import receiptreader.helper
-
+import receiptreader.lib.function_parse as function_parse
 
 # process all the sub images here
 def process_all_images(raw_receipt):
     for anImage in raw_receipt.image_set.all():
         if not anImage.raw_ocr_result:
-            raw_json = receiptreader.helper.textify_binary(anImage.absolute_path())
-            anImage.raw_ocr_result = raw_json
+            result_json_string = receiptreader.helper.textify_binary(anImage.absolute_path())
+
+            json_dict = function_parse.parse_json_string_to_dict(result_json_string)
+            raw_full_text = json_dict['fullTextAnnotation']['text']
+
+            anImage.raw_ocr_result = raw_full_text
             anImage.save()
 
     # parse image.raw_ocr to new receipt

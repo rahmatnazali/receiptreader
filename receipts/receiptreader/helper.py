@@ -30,8 +30,8 @@ def textify_binary(filepath):
         path = pathlib.Path(filepath)
         googlevision = GoogleVisionApi()
         with path.open() as pointer:
-            rawjson = googlevision.ocr_image(pointer.read())
-            return rawjson
+            result_json_string = googlevision.ocr_image(pointer.read())
+            return result_json_string
     except Exception as e:
         print(e)
     return ""
