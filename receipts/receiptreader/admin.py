@@ -7,7 +7,7 @@ import receiptreader.lib.function_parse as function_parse
 def process_all_images(raw_receipt):
     for anImage in raw_receipt.image_set.all():
         if not anImage.raw_ocr_result:
-            result_json_string = receiptreader.helper.textify_binary(anImage.absolute_path())
+            result_json_string = receiptreader.helper.textify_binary(anImage)
 
             json_dict = function_parse.parse_json_string_to_dict(result_json_string)
             raw_full_text = json_dict['fullTextAnnotation']['text']

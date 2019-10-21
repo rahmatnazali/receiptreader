@@ -24,14 +24,12 @@ def merge_date_time(raw_date, raw_time):
     cleaned_datetime = cleaned_datetime.replace(tzinfo=pytz.UTC)
     return cleaned_datetime
 
-def textify_binary(filepath):
-    return filepath # todo: remove this line for production / testing
+def textify_binary(anImage):
+    return anImage.absolute_path() # todo: remove this line for production / testing
     try:
-        path = pathlib.Path(filepath)
         googlevision = GoogleVisionApi()
-        with path.open() as pointer:
-            result_json_string = googlevision.ocr_image(pointer.read())
-            return result_json_string
+        result_json_string = googlevision.ocr_image(anImage)
+        return result_json_string
     except Exception as e:
         print(e)
     return ""
