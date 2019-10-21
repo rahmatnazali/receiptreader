@@ -1,10 +1,28 @@
-import receiptreader.lib.function_parse as function_parse
 import receiptreader.lib.function_regex as function_regex
 import receiptreader.lib.function_cleaner as function_cleaner
-import receiptreader.lib.class_general as class_general
 from .lib import class_general
 from receiptreader.google_vision_api import GoogleVisionApi
 import pathlib
+import pytz
+import datetime
+
+def merge_date_time(raw_date, raw_time):
+    cleaned_date = raw_date if raw_date is not None else ''
+    cleaned_time = raw_time if raw_time is not None else ''
+
+    merged_date_time = '{} {}'.format(cleaned_date, cleaned_time).strip()
+
+    if ' ' in merged_date_time:
+        cleaned_datetime = datetime.datetime.strptime(merged_date_time, '%m-%d-%Y %H:%M:%S')
+    elif len(cleaned_date):
+        cleaned_datetime = datetime.datetime.strptime(merged_date_time, '%m-%d-%Y')
+    elif len(cleaned_time):
+        cleaned_datetime = datetime.datetime.strptime(merged_date_time, '%H:%M:%S')
+    else:
+        return None
+
+    cleaned_datetime = cleaned_datetime.replace(tzinfo=pytz.UTC)
+    return cleaned_datetime
 
 def textify_binary(filepath):
     return filepath # todo: remove this line for production / testing

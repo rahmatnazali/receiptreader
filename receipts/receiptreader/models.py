@@ -2,6 +2,8 @@ from django.db import models
 from django.db.models.signals import post_save
 import datetime
 import pathlib
+import pytz
+import receiptreader.helper
 # from bs4 import BeautifulSoup
 
 # Create your models here.
@@ -50,11 +52,9 @@ class ProcessedReceipt(models.Model):
 
         raw_date = primitive_dict['bill']['date']
         raw_time = primitive_dict['bill']['time']
-        raw_time = raw_time.replace(':0', ':00') if raw_time.endswith(':0') else raw_time
-        raw_merged_datetime = raw_date + ' ' + raw_time
-        cleaned_datetime = datetime.datetime.strptime(raw_merged_datetime, '%m-%d-%Y %H:%M:%S')
-        bill.datetime = cleaned_datetime
+        raw_time = raw_time.replace(':0', ':00') if raw_time and raw_time.endswith(':0') else raw_time
 
+        bill.datetime = receiptreader.helper.merge_date_time(raw_date, raw_time)
         bill.save()
 
         for raw_line_item in primitive_dict['line_items']:
