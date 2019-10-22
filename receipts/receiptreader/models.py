@@ -41,7 +41,7 @@ class ProcessedReceipt(models.Model):
         raw_time = primitive_dict['bill']['time']
         raw_time = raw_time.replace(':0', ':00') if raw_time and raw_time.endswith(':0') else raw_time
 
-        Bill.objects.create(
+        bill = Bill.objects.create(
             receipt=self,
             card_last_four=primitive_dict['bill']['card_last_four'],
             card_type=primitive_dict['bill']['card_type'],
@@ -53,12 +53,25 @@ class ProcessedReceipt(models.Model):
             datetime=receiptreader.helper.merge_date_time(raw_date, raw_time)
         )
 
+        is_line_total_calculable = receiptreader.helper.is_line_total_calculable_programmatically(
+            primitive_dict['line_items'],
+            bill.grand_total
+        )
+
         for raw_line_item in primitive_dict['line_items']:
+
+            if is_line_total_calculable:
+                unit_price = receiptreader.helper.string_to_float(raw_line_item['unit_price'])
+                quantity = int(raw_line_item['quantity'])
+                final_line_total = unit_price * quantity
+            else:
+                final_line_total = receiptreader.helper.string_to_float(raw_line_item['line_total'])
+
             LineItem.objects.create(
                 receipt=self,
                 container_deposit=receiptreader.helper.string_to_float(raw_line_item['container_deposit']),
                 description=raw_line_item['description'],
-                line_total=receiptreader.helper.string_to_float(raw_line_item['line_total']),
+                line_total=final_line_total,
                 quantity=raw_line_item['quantity'],
                 sku=raw_line_item['sku'],
                 tax_code=raw_line_item['tax_code'],

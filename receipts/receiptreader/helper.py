@@ -6,6 +6,23 @@ import pytz
 import datetime
 import receipts.settings
 
+def is_line_total_calculable_programmatically(raw_line_items, grand_total):
+    if grand_total is None:
+        return False
+
+    sum_grand_total = 0
+    try:
+        for line_item in raw_line_items:
+            unit_price = string_to_float(line_item['unit_price'])
+            quantity = int(line_item['quantity'])
+            if unit_price and quantity:
+                sum_grand_total += (unit_price * quantity)
+    except (ValueError, TypeError):
+        return False
+
+    return sum_grand_total == grand_total
+
+
 def string_to_float(raw_string):
     if raw_string is None:
         return raw_string
