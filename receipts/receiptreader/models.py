@@ -9,11 +9,10 @@ import receiptreader.helper
 # Output after document is read by Google vision and JSON is returned
 
 class ProcessedReceipt(models.Model):
-    # raw_receipt = models.OneToOneField(RawReceipt, on_delete=models.DO_NOTHING, related_name='a', null=True, blank=True)
 
     def __str__(self):
         if self.bill.transaction_number and self.billto.custom_name:
-            return '{} {}'.format(self.bill.transaction_number, self.billto.custom_name)
+            return '{} {} {}'.format(self.id, self.bill.transaction_number, self.billto.custom_name)
         else:
             return str(self.id)
 
@@ -170,8 +169,8 @@ class LineItem(models.Model):
 # Scanned Document storage
 
 class RawReceipt(models.Model):
-    processed_receipt = models.OneToOneField(ProcessedReceipt, on_delete=models.DO_NOTHING, related_name='pr',
-                                             null=True, blank=True)
+    # processed_receipt = models.OneToOneField(ProcessedReceipt, on_delete=models.DO_NOTHING, related_name='pr',null=True, blank=True)
+    processed_receipt = models.ForeignKey(ProcessedReceipt, on_delete=models.DO_NOTHING, related_name='raw_receipt', null=True, blank=True)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     def __str__(self):
