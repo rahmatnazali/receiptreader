@@ -2,9 +2,22 @@ import receiptreader.lib.function_regex as function_regex
 import receiptreader.lib.function_cleaner as function_cleaner
 from .lib import class_general
 from receiptreader.google_vision_api import GoogleVisionApi
-import pathlib
 import pytz
 import datetime
+
+def string_to_float(raw_string):
+    if raw_string is None:
+        return raw_string
+    try:
+        cleaned_string = float(raw_string)
+        return cleaned_string
+    except ValueError:
+        if raw_string.count(',') == 1:
+            raw_string = float(raw_string.replace(',', '.'))
+        elif raw_string.count(',') > 1:
+            raw_string = '.'.join(raw_string.rsplit(',', 1))
+        cleaned_string = float(raw_string.replace(',', ''))
+    return cleaned_string
 
 def merge_date_time(raw_date, raw_time):
     cleaned_date = raw_date if raw_date is not None else ''

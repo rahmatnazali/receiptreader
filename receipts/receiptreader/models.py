@@ -44,10 +44,10 @@ class ProcessedReceipt(models.Model):
         bill.receipt = self
         bill.card_last_four= primitive_dict['bill']['card_last_four']
         bill.card_type = primitive_dict['bill']['card_type']
-        bill.grand_total = primitive_dict['bill']['grand_total']
+        bill.grand_total = receiptreader.helper.string_to_float(primitive_dict['bill']['grand_total'])
         bill.total_deposit = primitive_dict['bill']['total_deposit']
-        bill.total_gst = primitive_dict['bill']['total_gst']
-        bill.total_pst = primitive_dict['bill']['total_pst']
+        bill.total_gst = receiptreader.helper.string_to_float(primitive_dict['bill']['total_gst'])
+        bill.total_pst = receiptreader.helper.string_to_float(primitive_dict['bill']['total_pst'])
         bill.transaction_number = primitive_dict['bill']['trans_num']
 
         raw_date = primitive_dict['bill']['date']
@@ -60,13 +60,13 @@ class ProcessedReceipt(models.Model):
         for raw_line_item in primitive_dict['line_items']:
             line_items = LineItem()
             line_items.receipt = self
-            line_items.container_deposit = raw_line_item['container_deposit']
+            line_items.container_deposit = receiptreader.helper.string_to_float(raw_line_item['container_deposit'])
             line_items.description = raw_line_item['description']
-            line_items.line_total = raw_line_item['line_total']
+            line_items.line_total = receiptreader.helper.string_to_float(raw_line_item['line_total'])
             line_items.quantity = raw_line_item['quantity']
             line_items.sku = raw_line_item['sku']
             line_items.tax_code = raw_line_item['tax_code']
-            line_items.unit_price = raw_line_item['unit_price']
+            line_items.unit_price = receiptreader.helper.string_to_float(raw_line_item['unit_price'])
             line_items.save()
 
 
