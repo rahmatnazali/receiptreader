@@ -4,9 +4,7 @@ import datetime
 import pathlib
 import pytz
 import receiptreader.helper
-# from bs4 import BeautifulSoup
 
-# Create your models here.
 
 # Output after document is read by Google vision and JSON is returned
 
@@ -23,51 +21,50 @@ class ProcessedReceipt(models.Model):
         primitive_dict = primitive_receipt_class.get_dict()
 
         self.save()
-        bill_from = BillFrom()
-        bill_from.receipt = self
-        bill_from.name = primitive_dict['bill_from']['name']
-        bill_from.address = primitive_dict['bill_from']['address']
-        bill_from.save()
+        BillFrom.objects.create(
+            receipt=self,
+            name=primitive_dict['bill_from']['name'],
+            address=primitive_dict['bill_from']['address']
+        )
 
-        bill_to = BillTo()
-        bill_to.receipt = self
-        bill_to.custom_pst = primitive_dict['bill_to']['custom_PST']
-        bill_to.custom_number = primitive_dict['bill_to']['custom_number']
-        bill_to.custom_name = primitive_dict['bill_to']['custom_name']
-        bill_to.custom_address = primitive_dict['bill_to']['custom_address']
-        bill_to.custom_city = primitive_dict['bill_to']['custom_city']
-        bill_to.custom_prov = primitive_dict['bill_to']['custom_prov']
-        bill_to.custom_postal = primitive_dict['bill_to']['custom_postal']
-        bill_to.save()
-
-        bill = Bill()
-        bill.receipt = self
-        bill.card_last_four= primitive_dict['bill']['card_last_four']
-        bill.card_type = primitive_dict['bill']['card_type']
-        bill.grand_total = receiptreader.helper.string_to_float(primitive_dict['bill']['grand_total'])
-        bill.total_deposit = primitive_dict['bill']['total_deposit']
-        bill.total_gst = receiptreader.helper.string_to_float(primitive_dict['bill']['total_gst'])
-        bill.total_pst = receiptreader.helper.string_to_float(primitive_dict['bill']['total_pst'])
-        bill.transaction_number = primitive_dict['bill']['trans_num']
+        BillTo.objects.create(
+            receipt=self,
+            custom_pst=primitive_dict['bill_to']['custom_PST'],
+            custom_number=primitive_dict['bill_to']['custom_number'],
+            custom_name=primitive_dict['bill_to']['custom_name'],
+            custom_address=primitive_dict['bill_to']['custom_address'],
+            custom_city=primitive_dict['bill_to']['custom_city'],
+            custom_prov=primitive_dict['bill_to']['custom_prov'],
+            custom_postal=primitive_dict['bill_to']['custom_postal']
+        )
 
         raw_date = primitive_dict['bill']['date']
         raw_time = primitive_dict['bill']['time']
         raw_time = raw_time.replace(':0', ':00') if raw_time and raw_time.endswith(':0') else raw_time
 
-        bill.datetime = receiptreader.helper.merge_date_time(raw_date, raw_time)
-        bill.save()
+        Bill.objects.create(
+            receipt=self,
+            card_last_four=primitive_dict['bill']['card_last_four'],
+            card_type=primitive_dict['bill']['card_type'],
+            grand_total=receiptreader.helper.string_to_float(primitive_dict['bill']['grand_total']),
+            total_deposit=primitive_dict['bill']['total_deposit'],
+            total_gst=receiptreader.helper.string_to_float(primitive_dict['bill']['total_gst']),
+            total_pst=receiptreader.helper.string_to_float(primitive_dict['bill']['total_pst']),
+            transaction_number=primitive_dict['bill']['trans_num'],
+            datetime=receiptreader.helper.merge_date_time(raw_date, raw_time)
+        )
 
         for raw_line_item in primitive_dict['line_items']:
-            line_items = LineItem()
-            line_items.receipt = self
-            line_items.container_deposit = receiptreader.helper.string_to_float(raw_line_item['container_deposit'])
-            line_items.description = raw_line_item['description']
-            line_items.line_total = receiptreader.helper.string_to_float(raw_line_item['line_total'])
-            line_items.quantity = raw_line_item['quantity']
-            line_items.sku = raw_line_item['sku']
-            line_items.tax_code = raw_line_item['tax_code']
-            line_items.unit_price = receiptreader.helper.string_to_float(raw_line_item['unit_price'])
-            line_items.save()
+            LineItem.objects.create(
+                receipt=self,
+                container_deposit=receiptreader.helper.string_to_float(raw_line_item['container_deposit']),
+                description=raw_line_item['description'],
+                line_total=receiptreader.helper.string_to_float(raw_line_item['line_total']),
+                quantity=raw_line_item['quantity'],
+                sku=raw_line_item['sku'],
+                tax_code=raw_line_item['tax_code'],
+                unit_price=receiptreader.helper.string_to_float(raw_line_item['unit_price']),
+            )
 
 
 class BillFrom(models.Model):
@@ -81,6 +78,7 @@ class BillFrom(models.Model):
     address: '#122 370 E Broadway'
     name: '#123 Kingsgate Mall BCLS'
     """
+
 
 class Bill(models.Model):
     receipt = models.OneToOneField(ProcessedReceipt, on_delete=models.CASCADE, null=True, blank=True)
@@ -114,6 +112,7 @@ class Bill(models.Model):
     total_pst: null
     trans_num: '301586985795'
     """
+
 
 class BillTo(models.Model):
     receipt = models.OneToOneField(ProcessedReceipt, on_delete=models.CASCADE, null=True, blank=True)
@@ -171,12 +170,14 @@ class LineItem(models.Model):
 # Scanned Document storage
 
 class RawReceipt(models.Model):
-    processed_receipt = models.OneToOneField(ProcessedReceipt, on_delete=models.DO_NOTHING, related_name='pr', null=True, blank=True)
+    processed_receipt = models.OneToOneField(ProcessedReceipt, on_delete=models.DO_NOTHING, related_name='pr',
+                                             null=True, blank=True)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     def __str__(self):
         # return str(self.id)
         return '{} {}'.format(self.id, self.timestamp)
+
 
 class Image(models.Model):
     raw_receipt = models.ForeignKey(RawReceipt, on_delete=models.CASCADE)
@@ -191,8 +192,6 @@ class Image(models.Model):
     def __str__(self):
         # return str(self.binary.name)
         return str(pathlib.Path(self.binary.name).absolute())
-
-
 
 # class Output(models.Model):
 #     document = models.ForeignKey(Document, on_delete=models.CASCADE)
