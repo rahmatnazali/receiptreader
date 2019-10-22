@@ -51,9 +51,7 @@ def process_all_images(raw_receipt):
 
         processed_receipt.merge_from_primitive(primitive_receipt_class)
         processed_receipt.save()
-        print(processed_receipt)
         raw_receipt.processed_receipt = processed_receipt
-        print(raw_receipt)
 
 
 
