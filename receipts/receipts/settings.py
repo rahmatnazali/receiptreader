@@ -28,6 +28,14 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+# custom mode
+"""
+You can change it between True or False
+True    : it will run with dummy text and all (for me to dev with)
+False   : it will run with real logic, send request to google vision, etc (for you to test)
+"""
+DEV_MODE = True
+
 # Application definition
 
 INSTALLED_APPS = [

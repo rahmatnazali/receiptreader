@@ -4,6 +4,7 @@ from .lib import class_general
 from receiptreader.google_vision_api import GoogleVisionApi
 import pytz
 import datetime
+import receipts.settings
 
 def string_to_float(raw_string):
     if raw_string is None:
@@ -38,14 +39,16 @@ def merge_date_time(raw_date, raw_time):
     return cleaned_datetime
 
 def textify_binary(anImage):
-    return anImage.absolute_path() # todo: remove this line for production / testing
-    try:
-        googlevision = GoogleVisionApi()
-        result_json_string = googlevision.ocr_image(anImage)
-        return result_json_string
-    except Exception as e:
-        print(e)
-    return ""
+    if receipts.settings.DEV_MODE:
+        return anImage.absolute_path() # todo: remove this line for production / testing
+    else:
+        try:
+            googlevision = GoogleVisionApi()
+            result_json_string = googlevision.ocr_image(anImage)
+            return result_json_string
+        except Exception as e:
+            print(e)
+        return ""
 
 def merge_s_d(dict_line_item, string):
     result_s_d = function_regex.re_find_all_s_d(string)

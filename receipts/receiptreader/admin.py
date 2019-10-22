@@ -2,6 +2,7 @@ from django.contrib import admin
 from receiptreader import models
 import receiptreader.helper
 import receiptreader.lib.function_parse as function_parse
+import receipts.settings
 
 # process all the sub images here
 def process_all_images(raw_receipt):
@@ -9,8 +10,11 @@ def process_all_images(raw_receipt):
         if not anImage.raw_ocr_result:
             result_json_string = receiptreader.helper.textify_binary(anImage)
 
-            json_dict = function_parse.parse_json_string_to_dict(result_json_string)
-            raw_full_text = json_dict['fullTextAnnotation']['text']
+            if receipts.settings.DEV_MODE:
+                raw_full_text = result_json_string
+            else:
+                json_dict = function_parse.parse_json_string_to_dict(result_json_string)
+                raw_full_text = json_dict['fullTextAnnotation']['text']
 
             anImage.raw_ocr_result = raw_full_text
             anImage.save()
