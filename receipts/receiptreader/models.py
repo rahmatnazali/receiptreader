@@ -1,41 +1,6 @@
 from django.db import models
-from django.db.models.signals import post_save
-import datetime
 import pathlib
-import pytz
 import receiptreader.helper
-
-
-# vendor, store, etc
-
-"""
-Vendor can have multiple Store
-Store can have multiple Receipt (both RawReceipt and ProcessedReceipt)
-
-vendor:
-name, street address, city, province/state, phone, email, yaml schema...everything except for name and yaml can be null
-i guess yaml could be null
-
-for now no need for vendor location, it wouldnt be needed very often
-
-
-"""
-
-
-
-# class Vendor(models.Model):
-#     name = models.CharField(max_length=100)
-#     street_address = models.CharField(max_length=100, null=True, blank=True)
-#     city = models.CharField(max_length=100, null=True, blank=True)
-#     province_state = models.CharField(max_length=100, verbose_name='Province/State')
-#     email = models.EmailField()
-#     hierarchy = None
-#     pass
-#
-# class Store(models.Model):
-#     pass
-
-
 
 
 # Output after document is read by Google vision and JSON is returned
