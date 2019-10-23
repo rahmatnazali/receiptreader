@@ -45,8 +45,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'general',
     'receiptreader',
-    # 'cities_light'
+
+    # for json model
+    'jsonfield',
+    'django_json_widget',
+
+    # todo: for possible country/cities dropdown
+    # 'cities_light',
 ]
 
 # possible module for city/country: https://github.com/yourlabs/django-cities-light

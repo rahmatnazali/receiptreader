@@ -3,3 +3,7 @@ django
 google-cloud-vision
 Pillow
 django-cities-light
+
+# for json field
+django-jsonfield
+django-json-widget
