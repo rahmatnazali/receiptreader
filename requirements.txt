@@ -1,5 +1,5 @@
 pyyaml
 django
-google-cloud-storage
 google-cloud-vision
 Pillow
+django-cities-light

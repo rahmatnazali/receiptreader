@@ -46,7 +46,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'receiptreader',
+    # 'cities_light'
 ]
+
+# possible module for city/country: https://github.com/yourlabs/django-cities-light
+#cities_light
+# CITIES_LIGHT_TRANSLATION_LANGUAGES = ['fr', 'en']
+# CITIES_LIGHT_INCLUDE_COUNTRIES = ['CA', 'US']
+# CITIES_LIGHT_INCLUDE_CITY_TYPES = ['PPL', 'PPLA', 'PPLA2', 'PPLA3', 'PPLA4', 'PPLC', 'PPLF', 'PPLG', 'PPLL', 'PPLR', 'PPLS', 'STLMT',]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
