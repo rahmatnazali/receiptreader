@@ -10,6 +10,13 @@ class VendorAdmin(admin.ModelAdmin):
             'widget': django_json_widget.widgets.JSONEditorWidget
         }
     }
-    pass
+
+class StoreAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        jsonfield.JSONField: {
+            'widget': django_json_widget.widgets.JSONEditorWidget
+        }
+    }
 
 admin.site.register(general.models.Vendor, VendorAdmin)
+admin.site.register(general.models.Store, StoreAdmin)

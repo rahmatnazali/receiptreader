@@ -18,22 +18,35 @@ for now no need for vendor location, it wouldnt be needed very often
 
 class Vendor(models.Model):
     name = models.CharField(max_length=100)
-    hierarchy = jsonfield.JSONField(null=True, blank=True, help_text="The most recommended view for user is 'Tree' view")
 
     street_address = models.CharField(max_length=100, null=True, blank=True)
     city = models.CharField(max_length=100, null=True, blank=True)
     province_state = models.CharField(max_length=100, verbose_name='Province/State', null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
 
+    hierarchy = jsonfield.JSONField(null=True, blank=True, help_text="The most recommended view for user is 'Tree' view")
+
+    def __str__(self):
+        if self.name:
+            return self.name
+        return str(self.id)
+
 
 class Store(models.Model):
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE, null=True, blank=True)
+
+    name = models.CharField(max_length=100)
     location_link = models.URLField(null=True, blank=True, help_text='You can insert google map link here')
 
     street_address = models.CharField(max_length=100, null=True, blank=True)
     city = models.CharField(max_length=100, null=True, blank=True)
     province_state = models.CharField(max_length=100, verbose_name='Province/State', null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
+
+    def __str__(self):
+        if self.name:
+            return self.name
+        return str(self.id)
 
 
 
