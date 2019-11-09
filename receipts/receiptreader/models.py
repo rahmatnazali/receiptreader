@@ -191,7 +191,7 @@ class RawReceipt(models.Model):
 
 
 class Image(models.Model):
-    raw_receipt = models.ForeignKey(RawReceipt, on_delete=models.CASCADE)
+    raw_receipt = models.ForeignKey(RawReceipt, on_delete=models.CASCADE, null=True, blank=True)
 
     binary = models.ImageField(verbose_name='Document (Image/PDF)', upload_to='documents')
     raw_ocr_result = models.TextField(verbose_name='Raw OCR Result (let it empty)', null=True, blank=True)
