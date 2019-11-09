@@ -7,6 +7,8 @@ import receiptreader.helper
 
 class ProcessedReceipt(models.Model):
 
+    is_verified = models.BooleanField(default=False)
+
     def __str__(self):
         if self.bill.transaction_number and self.billto.custom_name:
             return '{} {} {}'.format(self.id, self.bill.transaction_number, self.billto.custom_name)
