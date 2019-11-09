@@ -1,7 +1,13 @@
-pyyaml
 django
+djangorestframework
+djangorestframework-jwt
+
+#utils
 google-cloud-vision
+pyyaml
 Pillow
+
+# cities
 django-cities-light
 
 # for json field
