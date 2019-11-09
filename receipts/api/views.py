@@ -5,9 +5,8 @@ from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework.views import status
 from rest_framework_jwt.settings import api_settings
-from .serializer import UserLoginSerializer, TokenSerializer
-
-# Create your views here.
+from .serializer import UserLoginSerializer, TokenSerializer, RawReceiptSerializer
+from receiptreader.models import RawReceipt
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
@@ -36,3 +35,39 @@ class LoginView(generics.CreateAPIView):
             serializer.is_valid()
             return Response(serializer.data)
         return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+
+# receipt model
+class RawReceiptListCreateView(generics.ListCreateAPIView):
+    queryset = RawReceipt.objects.all()
+    serializer_class = RawReceiptSerializer
+    # permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
+
+class RawReceiptDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    GET rawreceipt/:id/
+    PUT rawreceipt/:id/
+    DELETE rawreceipt/:id/
+    """
+
+    queryset = RawReceipt.objects.all()
+    serializer_class = RawReceiptSerializer
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, *args, **kwargs):
+        try:
+            raw_receipt = self.queryset.get(pk=kwargs['pk'])
+            return Response(RawReceiptSerializer(raw_receipt).data)
+            pass
+        except RawReceipt.DoesNotExist:
+            return Response({
+                "message": "Raw Receipt with id: {} does not exist".format(kwargs['pk'])
+            }, status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, *args, **kwargs):
+        return super().put(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return super().delete(request, *args, **kwargs)
+
