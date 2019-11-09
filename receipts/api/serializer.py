@@ -40,8 +40,17 @@ class RawReceiptSerializer(serializers.ModelSerializer):
                 raw_receipt=raw_receipt,
                 **image_data
             )
-
         return raw_receipt
+
+    def update(self, instance, validated_data):
+        image_set_list_data = validated_data.pop('image_set')
+
+        RawReceipt.objects.update_or_create(pk=instance.pk, defaults={**validated_data})
+
+        for image_data in image_set_list_data:
+            Image.objects.update_or_create(pk=image_data.pk, defaults={**image_data})
+
+        return instance
 
 
 class BillSerializer(serializers.ModelSerializer):
