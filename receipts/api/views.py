@@ -84,8 +84,8 @@ class ProcessedReceiptDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get(self, request, *args, **kwargs):
         try:
-            raw_receipt = self.queryset.get(pk=kwargs['pk'])
-            return Response(ProcessedReceiptSerializer(raw_receipt).data)
+            processed_receipt = self.queryset.get(pk=kwargs['pk'])
+            return Response(ProcessedReceiptSerializer(processed_receipt).data)
         except ProcessedReceipt.DoesNotExist:
             return Response({
                 "message": "Processed Receipt with id: {} does not exist".format(kwargs['pk'])
