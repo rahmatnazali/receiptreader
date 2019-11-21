@@ -86,8 +86,7 @@ class ProcessedReceiptDetailView(generics.RetrieveUpdateDestroyAPIView):
         try:
             raw_receipt = self.queryset.get(pk=kwargs['pk'])
             return Response(ProcessedReceiptSerializer(raw_receipt).data)
-            pass
-        except RawReceipt.DoesNotExist:
+        except ProcessedReceipt.DoesNotExist:
             return Response({
-                "message": "Raw Processed Receipt with id: {} does not exist".format(kwargs['pk'])
+                "message": "Processed Receipt with id: {} does not exist".format(kwargs['pk'])
             }, status.HTTP_404_NOT_FOUND)
