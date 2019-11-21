@@ -88,42 +88,29 @@ class ProcessedReceiptSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
-        bill_data = validated_data.get('bill', None)
-        validated_data.pop('bill')
-        bill = Bill.objects.create(
-            **bill_data
-        )
+        bill_serializer = BillSerializer(data=validated_data.pop('bill'))
+        bill_serializer.is_valid(raise_exception=True)
 
-        bill_to_data = validated_data.get('billto', None)
-        validated_data.pop('billto')
-        bill_to = BillTo.objects.create(
-            **bill_to_data
-        )
+        bill_to_serializer = BillToSerializer(data=validated_data.pop('billto'))
+        bill_to_serializer.is_valid(raise_exception=True)
 
-        bill_from_data = validated_data.get('billfrom', None)
-        validated_data.pop('billfrom')
-        bill_from = BillFrom.objects.create(
-            **bill_from_data
-        )
+        bill_from_serializer = BillFromSerializer(data=validated_data.pop('billfrom'))
+        bill_from_serializer.is_valid(raise_exception=True)
 
-        line_items_data = validated_data.get('lineitem_set', [])
-        validated_data.pop('lineitem_set')
-        line_items = [LineItem.objects.create(**single_item) for single_item in line_items_data]
-        print(line_items)
+        line_items_serializer = LineItemSerializer(data=validated_data.pop('lineitem_set'), many=True)
+        line_items_serializer.is_valid(raise_exception=True)
 
         processed_receipt = ProcessedReceipt.objects.create(
-            bill=bill,
-            billto = bill_to,
-            billfrom = bill_from,
             **validated_data
         )
 
-        bill.receipt = processed_receipt
-        bill_to.receipt = processed_receipt
-        bill_from.receipt = processed_receipt
-        bill.save()
-        bill_to.save()
-        bill_from.save()
+        bill_serializer.save(receipt=processed_receipt)
+        bill_to_serializer.save(receipt=processed_receipt)
+        bill_from_serializer.save(receipt=processed_receipt)
+        line_items = line_items_serializer.save(receipt=processed_receipt)
+
+        for i in line_items:
+            processed_receipt.lineitem_set.add(i)
 
         return processed_receipt
 
