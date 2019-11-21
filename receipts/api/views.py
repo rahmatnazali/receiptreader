@@ -5,7 +5,7 @@ from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework.views import status
 from rest_framework_jwt.settings import api_settings
-from .serializer import UserLoginSerializer, TokenSerializer, RawReceiptSerializer, ProcessedReceiptSerializer
+from .serializer import UserLoginSerializer, TokenSerializer, RawReceiptSerializer, ProcessedReceiptSerializer, VerifyReceipt
 from receiptreader.models import RawReceipt, ProcessedReceipt
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
@@ -90,3 +90,13 @@ class ProcessedReceiptDetailView(generics.RetrieveUpdateDestroyAPIView):
             return Response({
                 "message": "Processed Receipt with id: {} does not exist".format(kwargs['pk'])
             }, status.HTTP_404_NOT_FOUND)
+
+class ProcessedReceiptVerifyView(generics.RetrieveUpdateAPIView):
+    """
+    PUT rawreceipt/:id/
+    """
+
+    queryset = ProcessedReceipt.objects.all()
+    serializer_class = VerifyReceipt
+    # permission_classes = (permissions.AllowAny,)
+    permission_classes = (permissions.IsAuthenticated,)
