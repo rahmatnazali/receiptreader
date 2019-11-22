@@ -150,7 +150,7 @@ class BillTo(models.Model):
 
 
 class LineItem(models.Model):
-    receipt = models.ForeignKey(ProcessedReceipt, on_delete=models.CASCADE, null=True, blank=True)
+    receipt = models.ForeignKey(ProcessedReceipt, related_name='line_items', on_delete=models.CASCADE, null=True, blank=True)
 
     sku = models.IntegerField(verbose_name='SKU')
     description = models.CharField(verbose_name='Item Name', max_length=100)

@@ -89,7 +89,7 @@ class ProcessedReceiptSerializer(serializers.ModelSerializer):
     bill = BillSerializer(many=False)
     billto = BillToSerializer(many=False)
     billfrom = BillFromSerializer(many=False)
-    lineitem_set = LineItemSerializer(many=True)
+    line_items = LineItemSerializer(many=True)
 
     class Meta:
         model = ProcessedReceipt
@@ -105,7 +105,7 @@ class ProcessedReceiptSerializer(serializers.ModelSerializer):
         bill_from_serializer = BillFromSerializer(data=validated_data.pop('billfrom'))
         bill_from_serializer.is_valid(raise_exception=True)
 
-        line_items_serializer = LineItemSerializer(data=validated_data.pop('lineitem_set'), many=True)
+        line_items_serializer = LineItemSerializer(data=validated_data.pop('line_items'), many=True)
         line_items_serializer.is_valid(raise_exception=True)
 
         processed_receipt = ProcessedReceipt.objects.create(
@@ -118,7 +118,7 @@ class ProcessedReceiptSerializer(serializers.ModelSerializer):
         line_items = line_items_serializer.save(receipt=processed_receipt)
 
         for i in line_items:
-            processed_receipt.lineitem_set.add(i)
+            processed_receipt.line_items.add(i)
 
         return processed_receipt
 
