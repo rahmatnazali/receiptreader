@@ -53,24 +53,32 @@ class RawReceiptSerializer(serializers.ModelSerializer):
 
 
 class BillSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = Bill
         # fields = '__all__'
         exclude = ('receipt', )
 
 class BillToSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = BillTo
         # fields = '__all__'
         exclude = ('receipt', )
 
 class BillFromSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = BillFrom
         # fields = '__all__'
         exclude = ('receipt', )
 
 class LineItemSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = LineItem
         # fields = '__all__'
