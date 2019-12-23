@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_jwt',
 
-    'general',
+    # 'general',
     'receiptreader',
 
     # for json model
