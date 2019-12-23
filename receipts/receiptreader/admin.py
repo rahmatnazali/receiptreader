@@ -115,7 +115,7 @@ class ReceiptAdmin(admin.ModelAdmin):
         BillInline,
         LineItemInline
     ]
-    list_display = ('__str__', 'id', 'is_verified', )
+    list_display = ('__str__', 'is_verified', 'updated_at', 'created_at')
 
 admin.site.register(models.ProcessedReceipt, ReceiptAdmin)
 
