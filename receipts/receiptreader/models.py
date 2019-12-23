@@ -185,10 +185,12 @@ class RawReceipt(models.Model):
     processed_receipt = models.ForeignKey(ProcessedReceipt, on_delete=models.DO_NOTHING, related_name='raw_receipt', null=True, blank=True)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
-    def __str__(self):
-        # return str(self.id)
-        return '{} {}'.format(self.id, self.timestamp)
-
+    def images(self):
+        images = self.image_set.all()
+        if len(images):
+            image_names = ', '.join([str(i) for i in images])
+            return f'{len(images)} item(s):  {image_names}'
+        return f'{len(images)} item'
 
 class Image(models.Model):
     raw_receipt = models.ForeignKey(RawReceipt, on_delete=models.CASCADE, null=True, blank=True)
@@ -201,8 +203,9 @@ class Image(models.Model):
         return str(pathlib.Path(self.binary.name).absolute())
 
     def __str__(self):
+        return self.binary.url
         # return str(self.binary.name)
-        return str(pathlib.Path(self.binary.name).absolute())
+        # return str(pathlib.Path(self.binary.name).absolute())
 
 # class Output(models.Model):
 #     document = models.ForeignKey(Document, on_delete=models.CASCADE)
